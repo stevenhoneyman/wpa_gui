@@ -23,7 +23,7 @@ class WpaGui : public QMainWindow, public Ui::WpaGui
 
 public:
 	WpaGui(QApplication *app, QWidget *parent = 0, const char *name = 0,
-	       Qt::WFlags fl = 0);
+	       Qt::WindowFlags fl = 0, int argc = 0, char **argv = 0);
 	~WpaGui();
 
 	virtual int ctrlRequest(const char *cmd, char *buf, size_t *buflen);
@@ -39,7 +39,7 @@ public:
 #endif
 
 public slots:
-	virtual void parse_argv();
+	virtual void parse_argv(int argc, char **argv);
 	virtual void updateStatus();
 	virtual void updateNetworks();
 	virtual void helpIndex();

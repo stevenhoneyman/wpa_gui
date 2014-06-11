@@ -14,7 +14,7 @@
 #include "networkconfig.h"
 
 
-ScanResults::ScanResults(QWidget *parent, const char *, bool, Qt::WFlags)
+ScanResults::ScanResults(QWidget *parent, const char *, bool, Qt::WindowFlags)
 	: QDialog(parent)
 {
 	setupUi(this);
@@ -26,8 +26,8 @@ ScanResults::ScanResults(QWidget *parent, const char *, bool, Qt::WFlags)
 		SLOT(bssSelected(QTreeWidgetItem *)));
 
 	wpagui = NULL;
-	scanResultsWidget->setItemsExpandable(FALSE);
-	scanResultsWidget->setRootIsDecorated(FALSE);
+	scanResultsWidget->setItemsExpandable(false);
+	scanResultsWidget->setRootIsDecorated(false);
 	scanResultsWidget->setItemDelegate(new SignalBar(scanResultsWidget));
 }
 

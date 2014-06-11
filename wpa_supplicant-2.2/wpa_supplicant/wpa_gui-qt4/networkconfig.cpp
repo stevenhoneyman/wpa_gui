@@ -26,7 +26,7 @@ enum {
 #define WPA_GUI_KEY_DATA "[key is configured]"
 
 
-NetworkConfig::NetworkConfig(QWidget *parent, const char *, bool, Qt::WFlags)
+NetworkConfig::NetworkConfig(QWidget *parent, const char *, bool, Qt::WindowFlags)
 	: QDialog(parent)
 {
 	setupUi(this);
@@ -237,7 +237,7 @@ void NetworkConfig::addNetwork()
 	} else
 		id = edit_network_id;
 
-	setNetworkParam(id, "ssid", ssidEdit->text().toAscii().constData(),
+	setNetworkParam(id, "ssid", ssidEdit->text().toLatin1().constData(),
 			true);
 
 	const char *key_mgmt = NULL, *proto = NULL, *pairwise = NULL;
@@ -291,14 +291,14 @@ void NetworkConfig::addNetwork()
 		setNetworkParam(id, "group", "TKIP CCMP WEP104 WEP40", false);
 	}
 	if (pskEdit->isEnabled() &&
-	    strcmp(pskEdit->text().toAscii().constData(),
+	    strcmp(pskEdit->text().toLatin1().constData(),
 		   WPA_GUI_KEY_DATA) != 0)
 		setNetworkParam(id, "psk",
-				pskEdit->text().toAscii().constData(),
+				pskEdit->text().toLatin1().constData(),
 				psklen != 64);
 	if (eapSelect->isEnabled()) {
 		const char *eap =
-			eapSelect->currentText().toAscii().constData();
+			eapSelect->currentText().toLatin1().constData();
 		setNetworkParam(id, "eap", eap, false);
 		if (strcmp(eap, "SIM") == 0 || strcmp(eap, "AKA") == 0)
 			setNetworkParam(id, "pcsc", "", true);
@@ -314,21 +314,21 @@ void NetworkConfig::addNetwork()
 			if (inner.startsWith("EAP-"))
 				snprintf(phase2, sizeof(phase2), "auth=%s",
 					 inner.right(inner.size() - 4).
-					 toAscii().constData());
+					 toLatin1().constData());
 		} else if (eap.compare("TTLS") == 0) {
 			if (inner.startsWith("EAP-"))
 				snprintf(phase2, sizeof(phase2), "autheap=%s",
 					 inner.right(inner.size() - 4).
-					 toAscii().constData());
+					 toLatin1().constData());
 			else
 				snprintf(phase2, sizeof(phase2), "auth=%s",
-					 inner.toAscii().constData());
+					 inner.toLatin1().constData());
 		} else if (eap.compare("FAST") == 0) {
 			const char *provisioning = NULL;
 			if (inner.startsWith("EAP-")) {
 				snprintf(phase2, sizeof(phase2), "auth=%s",
 					 inner.right(inner.size() - 4).
-					 toAscii().constData());
+					 toLatin1().constData());
 				provisioning = "fast_provisioning=2";
 			} else if (inner.compare("GTC(auth) + MSCHAPv2(prov)")
 				   == 0) {
@@ -354,21 +354,21 @@ void NetworkConfig::addNetwork()
 		setNetworkParam(id, "phase2", "NULL", false);
 	if (identityEdit->isEnabled() && identityEdit->text().length() > 0)
 		setNetworkParam(id, "identity",
-				identityEdit->text().toAscii().constData(),
+				identityEdit->text().toLatin1().constData(),
 				true);
 	else
 		setNetworkParam(id, "identity", "NULL", false);
 	if (passwordEdit->isEnabled() && passwordEdit->text().length() > 0 &&
-	    strcmp(passwordEdit->text().toAscii().constData(),
+	    strcmp(passwordEdit->text().toLatin1().constData(),
 		   WPA_GUI_KEY_DATA) != 0)
 		setNetworkParam(id, "password",
-				passwordEdit->text().toAscii().constData(),
+				passwordEdit->text().toLatin1().constData(),
 				true);
 	else if (passwordEdit->text().length() == 0)
 		setNetworkParam(id, "password", "NULL", false);
 	if (cacertEdit->isEnabled() && cacertEdit->text().length() > 0)
 		setNetworkParam(id, "ca_cert",
-				cacertEdit->text().toAscii().constData(),
+				cacertEdit->text().toLatin1().constData(),
 				true);
 	else
 		setNetworkParam(id, "ca_cert", "NULL", false);
@@ -388,7 +388,7 @@ void NetworkConfig::addNetwork()
 
 	if (idstrEdit->isEnabled() && idstrEdit->text().length() > 0)
 		setNetworkParam(id, "id_str",
-				idstrEdit->text().toAscii().constData(),
+				idstrEdit->text().toLatin1().constData(),
 				true);
 	else
 		setNetworkParam(id, "id_str", "NULL", false);
@@ -396,7 +396,7 @@ void NetworkConfig::addNetwork()
 	if (prioritySpinBox->isEnabled()) {
 		QString prio;
 		prio = prio.setNum(prioritySpinBox->value());
-		setNetworkParam(id, "priority", prio.toAscii().constData(),
+		setNetworkParam(id, "priority", prio.toLatin1().constData(),
 				false);
 	}
 
@@ -468,7 +468,7 @@ void NetworkConfig::writeWepKey(int network_id, QLineEdit *edit, int id)
 	 * Assume hex key if only hex characters are present and length matches
 	 * with 40, 104, or 128-bit key
 	 */
-	txt = edit->text().toAscii().constData();
+	txt = edit->text().toLatin1().constData();
 	if (strcmp(txt, WPA_GUI_KEY_DATA) == 0)
 		return;
 	len = strlen(txt);

@@ -14,7 +14,6 @@
 #include <QtCore/QTranslator>
 #include "wpagui.h"
 
-
 class WpaGuiApp : public QApplication
 {
 public:
@@ -34,7 +33,7 @@ WpaGuiApp::WpaGuiApp(int &argc, char **argv) : QApplication(argc, argv)
 #ifndef QT_NO_SESSIONMANAGER
 void WpaGuiApp::saveState(QSessionManager &manager)
 {
-	QApplication::saveState(manager);
+	QApplication::saveStateRequest(manager);
 	w->saveState();
 }
 #endif
@@ -54,7 +53,7 @@ int main(int argc, char *argv[])
 		translator.load("wpa_gui_" + locale, "lang");
 	app.installTranslator(&translator);
 
-	WpaGui w(&app);
+	WpaGui w(&app, 0, 0, 0, argc, argv); /* Pass through to parse_argv */
 
 #ifdef CONFIG_NATIVE_WINDOWS
 	WSADATA wsaData;
