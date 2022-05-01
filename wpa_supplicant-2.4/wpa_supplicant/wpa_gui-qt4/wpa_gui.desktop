@@ -2,7 +2,7 @@
 Version=1.0
 Name=wpa_gui
 Comment=Graphical user interface for wpa_supplicant
-Exec=wpa_gui
+Exec=bash -c 'pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY XDG_RUNTIME_DIR=/tmp wpa_gui;exec bash'
 Icon=wpa_gui
 GenericName=wpa_supplicant user interface
 Terminal=false
